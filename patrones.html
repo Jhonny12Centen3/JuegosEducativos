@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Secuencia de Patrones</title>
+    <style>
+          body {
+        font-family: 'Arial', sans-serif;
+        background: url('patrones.jpg') no-repeat center center fixed;
+        background-size: cover; /* Escala la imagen para cubrir toda la página */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .pattern {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .pattern div {
+            font-size: 1.5rem;
+            padding: 10px;
+            border: 2px dashed #bbb;
+            border-radius: 5px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f7f7f7;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .options button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background0.3s;
+        }
+
+        .options button:hover {
+            background: #0056b3;
+        }
+
+        .message {
+            font-size: 1.5rem;
+            margin-top: 20px;
+        }
+
+        .score {
+            font-size: 1.2rem;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background0.3s;
+        }
+
+        .button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Juego de Secuencia de Patrones</h1>
+        <div class="pattern" id="pattern"></div>
+        <div class="options" id="options"></div>
+        <div class="message" id="message"></div>
+        <div class="score">Puntaje: <span id="score">0</span></div>
+        <button class="button" onclick="nextActivity()">Siguiente Secuencia</button>
+    </div>
+
+    <script>
+        const activities = [
+            {
+                pattern: [2, 4, 6, 8, '?'],
+                options: [10, 12, 14],
+                answer: 10
+            },
+            {
+                pattern: [4, 8, 12, 16, '?'],
+                options: [20, 24, 28],
+                answer: 20
+            },
+            {
+                pattern: [2, 4, 6, 8, 10, '?'],
+                options: [12, 14, 16],
+                answer: 12
+            },
+            {
+                pattern: [100, 90, 80, 70, '?'],
+                options: [60, 50, 40],
+                answer: 60
+            },
+            {
+                pattern: [3, 9, 15, 21, '?'],
+                options: [27, 33, 39],
+                answer: 27
+            }
+        ];
+
+        let currentActivity = 0;
+        let score = 0;
+
+        function loadActivity() {
+            const patternElement = document.getElementById('pattern');
+            const optionsElement = document.getElementById('options');
+            const messageElement = document.getElementById('message');
+
+            // Clear previous content
+            patternElement.innerHTML = '';
+            optionsElement.innerHTML = '';
+            messageElement.textContent = '';
+
+            const activity = activities[currentActivity];
+
+            // Render pattern
+            activity.pattern.forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = item;
+                patternElement.appendChild(div);
+            });
+
+            // Render options
+            activity.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option);
+                optionsElement.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedOption) {
+            const activity = activities[currentActivity];
+            const messageElement = document.getElementById('message');
+
+            if (selectedOption === activity.answer) {
+                score++;
+                messageElement.textContent = '¡Correcto! ✨';
+                messageElement.style.color = 'green';
+            } else {
+                messageElement.textContent = 'Incorrecto. Intenta de nuevo.';
+                messageElement.style.color = 'red';
+            }
+
+            document.getElementById('score').textContent = score;
+        }
+
+        function nextActivity() {
+            currentActivity++;
+
+            if (currentActivity >= activities.length) {
+                currentActivity = 0;
+                alert('¡Has completado todas las actividades! Reiniciando...');
+            }
+
+            loadActivity();
+        }
+
+        // Load the first activity
+        loadActivity();
+    </script>
+</body>
+</html>

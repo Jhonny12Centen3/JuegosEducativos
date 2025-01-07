@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Matemáticas</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            background: url('mate.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            padding: 20px;
+            margin: 0;
+        }
+        .game-container {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .question {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #555;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .fruit {
+            width: 60px;
+            height: 60px;
+        }
+        .answer-input {
+            font-size: 20px;
+            padding: 10px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+            border: 2px solid #ffa07a;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .answer-input:focus {
+            border-color: #f08080;
+            box-shadow: 0 0 8px rgba(240, 128, 128, 0.5);
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .button {
+            font-size: 18px;
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .button.check {
+            background-color: #76c893;
+            color: white;
+        }
+        .button.reset {
+            background-color: #ff6f61;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="mathGame">
+        <h1 class="title">Juego de Matemáticas</h1>
+        <p>Cuenta las frutas para resolver el problema:</p>
+        <div class="container" id="group1"></div>
+        <div class="question" id="operator">+</div>
+        <div class="container" id="group2"></div>
+        <div class="question">=</div>
+        <input type="number" id="answer" class="answer-input" placeholder="Tu respuesta" />
+        <div class="buttons">
+            <button class="button check" onclick="checkAnswer()">Comprobar</button>
+            <button class="button reset" onclick="generateMathQuestion()">Nueva Pregunta</button>
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+    <script>
+        const fruitImages = [
+            "manzana.jpg",
+            "banana.jpg",
+            "naranja.jpg",
+            "frutilla.jpg"
+        ];
+        let correctAnswer = 0;
+
+        function generateFruits(amount, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = "";
+            for (let i = 0; i < amount; i++) {
+                const fruit = document.createElement('img');
+                fruit.src = fruitImages[Math.floor(Math.random() * fruitImages.length)];
+                fruit.alt = "Fruta";
+                fruit.className = "fruit";
+                container.appendChild(fruit);
+            }
+        }
+
+        function generateMathQuestion() {
+            const group1Count = Math.floor(Math.random() * 5) + 1;
+            const group2Count = Math.floor(Math.random() * 5) + 1;
+            const isAddition = Math.random() > 0.5;
+
+            if (isAddition) {
+                document.getElementById('operator').innerText = "+";
+                correctAnswer = group1Count + group2Count;
+            } else {
+                document.getElementById('operator').innerText = "-";
+                correctAnswer = group1Count - group2Count;
+            }
+
+            generateFruits(group1Count, 'group1');
+            generateFruits(group2Count, 'group2');
+
+            document.getElementById('answer').value = "";
+            document.getElementById('message').innerText = "";
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('answer').value);
+            const message = document.getElementById('message');
+            if (isNaN(userAnswer)) {
+                message.innerText = "Por favor, ingresa un número.";
+                message.style.color = "red";
+                return;
+            }
+
+            if (userAnswer === correctAnswer) {
+                message.innerText = "¡Correcto! 🎉";
+                message.style.color = "green";
+            } else {
+                message.innerText = "Intenta de nuevo. ❌";
+                message.style.color = "red";
+            }
+        }
+
+        generateMathQuestion();
+    </script>
+</body>
+</html>

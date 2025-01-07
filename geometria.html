@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Geometría</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #c6e6ff, #f6c6ff);
+            background: url('geometria.jpg') no-repeat center center fixed;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .game-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            width: 80%;
+            max-width: 700px;
+            margin: 50px auto;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        .shape {
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .shape:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .circle {
+            background-color: #ff6b6b;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+        .square {
+            background-color: #6b9eff;
+            width: 100px;
+            height: 100px;
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid #6bff6b;
+        }
+        .rectangle {
+            background-color: #ffa06b;
+            width: 150px;
+            height: 70px;
+        }
+        .Cubo {
+            width: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid #6bff6b;
+        }
+        
+        .hexagon {
+            background-color: #ffc66b;
+            width: 100px;
+            height: 58px;
+            display: inline-block;
+            position: relative;
+            margin: 29px 0;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+        #question {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .score {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Juego de Geometría</h1>
+        <p id="question">Haz clic en la figura correcta</p>
+        <div id="shapes-container">
+            <div class="shape circle" onclick="checkAnswer('circle')"></div>
+            <div class="shape square" onclick="checkAnswer('square')"></div>
+            <div class="shape triangle" onclick="checkAnswer('triangle')"></div>
+            <div class="shape rectangle" onclick="checkAnswer('rectangle')"></div>
+            <div class="shape hexagon" onclick="checkAnswer('hexagon')"></div>
+            <div class="shape Cube" onclick="checkAnswer('Cube')"></div>
+        </div>
+        <div id="message"></div>
+        <p class="score">Puntos: <span id="score">0</span></p>
+    </div>
+    <script>
+        const tasks = [
+            { question: "Haz clic en el círculo", correct: "circle" },
+            { question: "Haz clic en el triángulo", correct: "triangle" },
+            { question: "Haz clic en el hexágono", correct: "hexagon" },
+            { question: "Haz clic en el cuadrado", correct: "square" },
+            { question: "Haz clic en el rectángulo", correct: "rectangle" },
+        ];
+        let currentTaskIndex = 0;
+        let score = 0;
+
+        function loadTask() {
+            const task = tasks[currentTaskIndex];
+            document.getElementById('question').textContent = task.question;
+            document.getElementById('message').textContent = "";
+        }
+
+        function checkAnswer(selectedShape) {
+            const task = tasks[currentTaskIndex];
+            const message = document.getElementById('message');
+            if (selectedShape === task.correct) {
+                score++;
+                document.getElementById('score').textContent = score;
+                message.textContent = "¡Felicidades! 🎉";
+                message.style.color = "green";
+                currentTaskIndex = (currentTaskIndex + 1) % tasks.length;
+                setTimeout(loadTask, 1500);
+            } else {
+                message.textContent = "Intenta de nuevo. ❌";
+                message.style.color = "red";
+            }
+        }
+
+        loadTask();
+    </script>
+</body>
+</html>

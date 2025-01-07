@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Juegos Educativos</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            background: url('principal.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #050505;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .menu-item {
+            width: 200px;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 18px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.1);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Menú de Juegos Educativos</h1>
+    <p>Selecciona un juego para comenzar:</p>
+    <div class="menu-container">
+        <a href="matematicas.html" class="menu-item">Juego de Matemáticas</a>
+        <a href="geometria.html" class="menu-item">Juego de Geometría</a>
+        <a href="patrones.html" class="menu-item">Juego de Patrones</a>
+    </div>
+</body>
+
+</html>
